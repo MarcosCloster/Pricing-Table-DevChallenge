@@ -70,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerPlans = document.getElementById('headerPlans')
     Object.values(plans).forEach(plan => {
         let thPlan = crearHeaderTabla(plan)
+        if(plan.name == 'Popular'){
+            thPlan.className = 'bg-[#121826] rounded-t-xl'
+        }
         headerPlans.appendChild(thPlan)
     })
 
@@ -81,18 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const trButton = document.createElement('tr')
     const tdEmpty = document.createElement('td')
     trButton.appendChild(tdEmpty)
+    let i = 1
     
     Object.values(plans).forEach(plan => {
         const tdPlanButton = document.createElement('td')
-        tdPlanButton.className= 'text-center'
         const aPlan = document.createElement('a')
-        aPlan.textContent = 'Get Started'
+        aPlan.textContent = 'Get Started ➔'
         aPlan.className = 'text-center cursor-pointer'
+        if(i === 3){
+            tdPlanButton.className= 'bg-[#7C4F1E] text-center rounded-b-xl text-white py-6'
+        } else {
+            tdPlanButton.className= 'text-center text-planName py-6'
+        }
         tdPlanButton.appendChild(aPlan)
-
         trButton.appendChild(tdPlanButton)
+        i++
     })
-
     bodyPlans.appendChild(trButton)
 })
 
@@ -100,27 +107,46 @@ document.addEventListener('DOMContentLoaded', () => {
 function crearHeaderTabla(plan) {
     const thPlan = document.createElement('th')
 
-    const namePlan = document.createElement('p')
-    namePlan.textContent = plan.name
-    namePlan.className = 'text-min text-planName font-normal'
+    const divPlan = document.createElement('div');
+    divPlan.className = 'flex justify-center items-center w-full py-4';
+
+    const namePlan = document.createElement('p');
+    namePlan.textContent = plan.name;
+    if (plan.name != 'Popular') {
+        namePlan.className = 'text-base text-planName font-semibold inline-block text-center';
+    } else {
+        namePlan.className = 'text-base text-planName font-semibold text-white bg-blue-900 inline-block text-center rounded-full px-6';
+    }
+    divPlan.appendChild(namePlan);
 
     const pricePlan = document.createElement('h2')
     pricePlan.textContent= plan.price
-    pricePlan.className = 'text-5xl font-semibold"'
+    
+    if(plan.name != 'Popular'){
+        pricePlan.className = 'text-5xl font-semibold pb-4'
+    } else {
+        pricePlan.className = 'text-5xl font-semibold text-white '
+    }
 
     const paymentTimePlan = document.createElement('p')
     paymentTimePlan.textContent = plan.paymentTime
-    paymentTimePlan.className = 'text-min text-paymentTime font-normal'
+    
+    if(plan.name != 'Popular'){
+        paymentTimePlan.className = 'text-base text-paymentTime font-normal pb-8'
+    } else {
+        paymentTimePlan.className = 'text-base text-paymentTime font-normal text-white pb-8'
+    }
 
-    thPlan.appendChild(namePlan)
+    thPlan.appendChild(divPlan)
     thPlan.append(pricePlan)
     thPlan.appendChild(paymentTimePlan)
 
     return thPlan
 }
 
-function crearBodyTabla(service, bodyPlan){
+function crearBodyTabla(service, bodyPlans){
     const trService = document.createElement('tr')
+
     const tdName = document.createElement('td')
     tdName.textContent = service
     tdName.className = 'font-bold text-lg'
@@ -130,14 +156,23 @@ function crearBodyTabla(service, bodyPlan){
         Object.values(plans).forEach(plan => {
             const tdWebsite = document.createElement('td')
             tdWebsite.textContent = plan.websiteNumber
-            tdWebsite.className = 'text-center text-lg'
+            
+            if(plan.name == "Popular"){
+                tdWebsite.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdWebsite.className = 'text-center text-lg pb-4' 
+            }
             trService.appendChild(tdWebsite)
         })
     } else if (service == 'Server storage'){
         Object.values(plans).forEach(plan => {
             const tdServer = document.createElement('td')
             tdServer.textContent = plan.serverStorage
-            tdServer.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdServer.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdServer.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdServer)
         })
     } else if (service == 'Database'){
@@ -148,7 +183,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdDatabase.textContent = '-'
             }
-            tdDatabase.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdDatabase.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdDatabase.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdDatabase)
         })
     } else if (service == 'Unmetered Bandwidth'){
@@ -159,7 +198,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdUnmetered.textContent = '-'
             }
-            tdUnmetered.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdUnmetered.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdUnmetered.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdUnmetered)
         })
     } else if (service == 'SSD Disk'){
@@ -170,7 +213,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdSdd.textContent = '-'
             }
-            tdSdd.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdSdd.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdSdd.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdSdd)
         })
     } else if (service == 'VCPUS Fontworld'){
@@ -181,7 +228,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdVcpus.textContent = '-'
             }
-            tdVcpus.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdVcpus.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdVcpus.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdVcpus)
         })
     } else if (service == 'Worldpress install'){
@@ -192,7 +243,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdWorldpress.textContent = '-'
             }
-            tdWorldpress.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdWorldpress.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdWorldpress.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdWorldpress)
         })
     } else {
@@ -203,7 +258,11 @@ function crearBodyTabla(service, bodyPlan){
             } else{
                 tdServerSpeed.textContent = '-'
             }
-            tdServerSpeed.className = 'text-center text-lg'
+            if(plan.name == "Popular"){
+                tdServerSpeed.className = 'text-center text-lg bg-[#121826] text-white pb-4'
+            } else {
+                tdServerSpeed.className = 'text-center text-lg pb-4'
+            }
             trService.appendChild(tdServerSpeed)
         })
     }
